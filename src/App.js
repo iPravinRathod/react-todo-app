@@ -1,23 +1,32 @@
 import "./App.css";
 import { useState } from "react";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import InputText from "./components/InputText";
+import TodoList from "./components/TodoList";
 
 function App() {
-  const [tasks, setTasks] = useState(["eat", "code", "sleep"]);
+  const [tasks, setTasks] = useState([
+    { id: crypto.randomUUID(), title: "eat", completed: false },
+    { id: crypto.randomUUID(), title: "code", completed: false },
+    { id: crypto.randomUUID(), title: "sleep", completed: false },
+  ]);
 
   const addTask = (inputText) => {
     setTasks((prevItems) => {
-      return [...prevItems, inputText];
+      return [
+        ...prevItems,
+        { id: crypto.randomUUID(), title: inputText, completed: false },
+      ];
     });
   };
+
+  const deteteTask = (id) => {
+    setTasks((prevItems) => {
+      return prevItems.filter((item) => item.id !== id);
+    });
+  };
+
   return (
     <div className="App">
       <Container maxWidth="sm">
@@ -29,16 +38,12 @@ function App() {
 
         {tasks.map((task) => {
           return (
-            <List>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemText primary={task} />
-                  <ListItemIcon onClick={() => alert("h")}>
-                    <DeleteIcon />
-                  </ListItemIcon>
-                </ListItemButton>
-              </ListItem>
-            </List>
+            <TodoList
+              key={task.id}
+              id={task.id}
+              title={task.title}
+              deteteTask={deteteTask}
+            />
           );
         })}
       </Container>
