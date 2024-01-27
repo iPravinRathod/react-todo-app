@@ -40,14 +40,24 @@ const TodoList = ({
   return (
     <>
       <List>
-        <ListItem disablePadding>
+        <ListItem
+          sx={{
+            backgroundColor: "orangered",
+            color: "white",
+            borderRadius: "10px",
+          }}
+          disablePadding
+        >
           <ListItemButton>
             <ListItemIcon onClick={() => completeTask(id)}>
               {completed ? <CheckCircleOutlinedIcon /> : <CircleOutlinedIcon />}
             </ListItemIcon>
             <ListItemText
               primary={title}
-              sx={{ textDecoration: completed ? "line-through" : "none" }}
+              sx={{
+                textDecoration: completed ? "line-through" : "none",
+                wordWrap: "break-word",
+              }}
             />
             <ListItemIcon onClick={() => handleOpen()}>
               <EditIcon />
