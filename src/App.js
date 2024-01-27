@@ -12,18 +12,44 @@ function App() {
     { id: crypto.randomUUID(), title: "sleep", completed: false },
   ]);
 
-  const addTask = (inputText) => {
+  const addTask = (id, inputText, handleClose) => {
+    inputText.trim() &&
+      setTasks((prevItems) => {
+        return [
+          ...prevItems,
+          { id: crypto.randomUUID(), title: inputText, completed: false },
+        ];
+      });
+  };
+
+  const deleteTask = (id) => {
     setTasks((prevItems) => {
-      return [
-        ...prevItems,
-        { id: crypto.randomUUID(), title: inputText, completed: false },
-      ];
+      return prevItems.filter((item) => item.id !== id);
     });
   };
 
-  const deteteTask = (id) => {
+  const updateTask = (id, text, handleClose) => {
     setTasks((prevItems) => {
-      return prevItems.filter((item) => item.id !== id);
+      const updatedList = prevItems.map((e) => {
+        if (e.id === id) {
+          e.title = text;
+        }
+        return e;
+      });
+      return updatedList;
+    });
+    handleClose();
+  };
+
+  const completeTask = (id) => {
+    setTasks((prevItems) => {
+      const updatedList = prevItems.map((e) => {
+        if (e.id === id) {
+          e.completed = !e.completed;
+        }
+        return e;
+      });
+      return updatedList;
     });
   };
 
@@ -34,7 +60,7 @@ function App() {
           Tasks
         </Typography>
 
-        <InputText addTask={addTask} />
+        <InputText buttonHandler={addTask} buttonText="Add" inpText="" />
 
         {tasks.map((task) => {
           return (
@@ -42,7 +68,10 @@ function App() {
               key={task.id}
               id={task.id}
               title={task.title}
-              deteteTask={deteteTask}
+              completed={task.completed}
+              deleteTask={deleteTask}
+              completeTask={completeTask}
+              updateTask={updateTask}
             />
           );
         })}

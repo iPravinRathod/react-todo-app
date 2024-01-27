@@ -3,8 +3,14 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 
-const InputText = ({ addTask }) => {
-  const [inputText, setInputText] = useState("");
+const InputText = ({
+  buttonHandler,
+  buttonText,
+  inpText,
+  inpId,
+  handleClose,
+}) => {
+  const [inputText, setInputText] = useState(inpText);
 
   return (
     <Box sx={{ height: "10vh", width: "sm" }}>
@@ -16,8 +22,11 @@ const InputText = ({ addTask }) => {
           setInputText(event.target.value);
         }}
       />
-      <Button variant="contained" onClick={() => addTask(inputText)}>
-        Add
+      <Button
+        variant="contained"
+        onClick={() => buttonHandler(inpId, inputText, handleClose)}
+      >
+        {buttonText}
       </Button>
     </Box>
   );
